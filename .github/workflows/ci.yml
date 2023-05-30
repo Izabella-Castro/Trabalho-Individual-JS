@@ -34,10 +34,14 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: npm install ./library/App
+        run: |
+          cd library_front
+          npm install
 
       - name: Run JavaScript tests
-        run: npm test
+        run: |
+          cd library_front
+          npm test
 
   lint:
     runs-on: ubuntu-latest
