@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+
+  backend:
+    build:
+      context: ./library_back
+    restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./library_front
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend

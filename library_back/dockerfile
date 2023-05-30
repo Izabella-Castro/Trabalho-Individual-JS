@@ -1,0 +1,23 @@
+# Usando uma imagem base do Python
+FROM python:3.9
+
+# Definindo o diretório de trabalho dentro do contêiner
+WORKDIR /app
+
+# Copiando o arquivo requirements.txt para o diretório de trabalho
+COPY requirements.txt .
+
+# Instalando as dependências Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiando todos os arquivos do diretório atual para o dSZZssziretório de trabalho
+COPY . .
+
+# Executando os comandos para criar e migrar o banco de dados
+RUN python manage.py makemigrations
+
+# Expondo a porta necessária para o servidor Django
+EXPOSE 8000
+
+# Iniciando o servidor Django
+CMD python manage.py migrate; python manage.py runserver 0.0.0.0:8000
