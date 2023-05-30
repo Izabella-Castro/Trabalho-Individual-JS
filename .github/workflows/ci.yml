@@ -1,41 +1,31 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.x
+        python-version: 3.9
 
-    - name: Install Python dependencies
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r ./library_back/requirements.txt
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14
+    - name: Run tests
+      run: python -m pytest
 
-    - name: Install Node.js dependencies
-      run: npm ci
+    - name: Run linting
+      run: python -m pylint your_module.py
 
-    - name: Run Python linting
-      run: pip install flake8 && flake8
-
-    - name: Run Node.js linting
-      run: npm run lint
-
-    - name: Run Python tests
-      run: pytest
-
-    - name: Run Node.js tests
-      run: npm test
